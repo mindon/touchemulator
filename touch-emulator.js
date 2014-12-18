@@ -135,7 +135,7 @@
             // The EventTarget on which the touch point started when it was first placed on the surface,
             // even if the touch point has since moved outside the interactive area of that element.
             // also, when the target doesnt exist anymore, we update it
-            if (ev.type == 'mousedown' || !eventTarget || (eventTarget && !eventTarget.dispatchEvent)) {
+            if (ev.type == 'mousedown' || (ev.type == 'mousemove' && (!eventTarget || (eventTarget && !eventTarget.dispatchEvent)))) {
                 eventTarget = ev.target;
             }
 
@@ -145,7 +145,7 @@
                 isMultiTouch = false;
             }
 
-            triggerTouch(touchType, ev);
+            eventTarget && triggerTouch(touchType, ev);
 
             // we're entering the multi-touch mode!
             if (!isMultiTouch && ev.shiftKey) {
